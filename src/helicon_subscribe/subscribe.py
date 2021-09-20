@@ -14,6 +14,8 @@ stream_name = "<stream_name>"
 
 def process(event: Dict[str, Any]):
     print(event)
+    print(event["temperature"])
+    print(event["timestamp"])
 
 
 if __name__ == '__main__':
