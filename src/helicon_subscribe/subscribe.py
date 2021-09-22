@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 from helicon_subscribe.helicon_subscribe_client import HeliconSubscribeClient
 
-keycloakUrl = "<keycloak-url>"
+authorizationServer = "<authorization_server>"
 grpcHost = "<grpc-host>"
 grpcPort = 0  # "<grpc-port-as-int>"
 clientId = "<client-id>"
@@ -19,8 +19,9 @@ def process(event: Dict[str, Any]):
 
 
 if __name__ == '__main__':
-    helicon_client = HeliconSubscribeClient(keycloak_url=keycloakUrl, server_host=grpcHost, server_port=grpcPort,
-                                            client_id=clientId, client_secret=clientSecret, tenant_name=tenant)
+    helicon_client = HeliconSubscribeClient(authorization_server=authorizationServer, server_host=grpcHost,
+                                            server_port=grpcPort, client_id=clientId, client_secret=clientSecret,
+                                            tenant_name=tenant)
 
     helicon_client.subscribe_json(stream_name, process)
 

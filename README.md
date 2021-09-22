@@ -12,36 +12,36 @@ Then you can just run the `__main__` method inside each client example.
 ## Sample App
 ### Publish
 This code is available at `helicon_publish/publish.py`. This example will publish as payload a json object like
-```
+```json
 {
 "temperature": 26,
 "timestamp": 1632143723
 }
 ```
 The method `time.time()` is part of the __Python 3__ code base, so you don't need to install anything else to use it.
-```
-keycloakUrl = "<keycloak-url>"
+```python
+authorizationServer = "<authorization-server>"
 grpcHost = "<grpc-host>"
 grpcPort = "<grpc-port>"
-clientId = "<client-id>"
+clientID = "<client-id>"
 clientSecret = "<client-secret>"
 tenant = "<tenant-name>"
 stream_name = "<stream_name>"
 
 if __name__ == '__main__':
-    helicon_client = HeliconPublishClient(keycloakUrl=keycloakUrl, serverHost=grpcHost, serverPort=grpcPort,
-    clientID=clientId, clientSecret=clientSecret, tenantName=tenant)
+    helicon_client = HeliconPublishClient(authorizationServer=authorizationServer, serverHost=grpcHost, serverPort=grpcPort,
+    clientID=clientID, clientSecret=clientSecret, tenantName=tenant)
 
     payload = f'{{"temperature": 26, "timestamp": {time.time()}}}'
     helicon_client.write(stream_name, payload)
 ```
 ### Subscribe
 Same for subscription, the code is available at `helicon_subscribe/subscribe.py`, and it is going to print the message, and its fields, defined above.
-```
-keycloakUrl = "<keycloak-url>"
+```python
+authorizationServer = "<authorization-server>"
 grpcHost = "<grpc-host>"
 grpcPort = 0  # "<grpc-port-as-int>"
-clientId = "<client-id>"
+clientID = "<client-id>"
 clientSecret = "<client-secret>"
 tenant = "<tenant-name>"
 stream_name = "<stream_name>"
@@ -54,8 +54,8 @@ print(event["timestamp"])
 
 
 if __name__ == '__main__':
-    helicon_client = HeliconSubscribeClient(keycloak_url=keycloakUrl, server_host=grpcHost, server_port=grpcPort,
-    client_id=clientId, client_secret=clientSecret, tenant_name=tenant)
+    helicon_client = HeliconSubscribeClient(authorization_erver=authorizationServer, server_host=grpcHost, server_port=grpcPort,
+    client_id=clientID, client_secret=clientSecret, tenant_name=tenant)
 
     helicon_client.subscribe_json(stream_name, process)
 ```

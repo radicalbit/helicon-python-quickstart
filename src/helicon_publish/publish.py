@@ -2,7 +2,7 @@ import time
 
 from helicon_publish.helicon_publish_client import HeliconPublishClient
 
-keycloakUrl = "<keycloak-url>"
+authorizationServer = "<authorization_server>"
 grpcHost = "<grpc-host>"
 grpcPort = "<grpc-port>"
 clientId = "<client-id>"
@@ -11,8 +11,9 @@ tenant = "<tenant-name>"
 stream_name = "<stream_name>"
 
 if __name__ == '__main__':
-    helicon_client = HeliconPublishClient(keycloakUrl=keycloakUrl, serverHost=grpcHost, serverPort=grpcPort,
-                                          clientID=clientId, clientSecret=clientSecret, tenantName=tenant)
+    helicon_client = HeliconPublishClient(authorizationServer=authorizationServer, serverHost=grpcHost,
+                                          serverPort=grpcPort, clientID=clientId, clientSecret=clientSecret,
+                                          tenantName=tenant)
 
     payload = f'{{"temperature": 26, "timestamp": {time.time()}}}'
     helicon_client.write(stream_name, payload)
