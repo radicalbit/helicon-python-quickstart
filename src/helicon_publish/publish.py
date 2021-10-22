@@ -1,3 +1,4 @@
+import os
 import time
 
 from helicon_publish.helicon_publish_client import HeliconPublishClient
@@ -11,7 +12,9 @@ tenant = "<tenant-name>"
 stream_name = "<stream_name>"
 
 if __name__ == '__main__':
-    helicon_client = HeliconPublishClient(keycloakUrl=keycloakUrl, serverHost=grpcHost, serverPort=grpcPort,
+    os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "roots.pem"
+
+    helicon_client = HeliconPublishClient(authorization_server=keycloakUrl, serverHost=grpcHost, serverPort=grpcPort,
                                           clientID=clientId, clientSecret=clientSecret, tenantName=tenant)
 
     payload = f'{{"temperature": 26, "timestamp": {time.time()}}}'
