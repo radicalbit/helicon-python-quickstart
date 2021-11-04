@@ -5,6 +5,7 @@ Helicon is a simple, scalable, robust, code-free and generic platform to enable 
 
 ## Set up the project
 
+We suggest to use venv and install everything with it: Run `python3 -m venv venv` and `source venv/bin/activate` to create and activate the virtual environment venv.
 Run `pip install -r requirements.txt` to install the project.
 To start to publish and/or subscribe to a topic stream you need to populate all the placeholder fields, defined like <placeholder>.
 Then you can just run the `__main__` method inside each client example.
@@ -22,15 +23,16 @@ The method `time.time()` is part of the __Python 3__ code base, so you don't nee
 ```python
 authorizationServer = "<authorization-server>"
 grpcHost = "<grpc-host>"
-grpcPort = "<grpc-port>"
+grpcPort = 0  # "<grpc-port-as-int>"
 clientID = "<client-id>"
 clientSecret = "<client-secret>"
 tenant = "<tenant-name>"
 stream_name = "<stream_name>"
 
 if __name__ == '__main__':
-    helicon_client = HeliconPublishClient(authorizationServer=authorizationServer, serverHost=grpcHost, serverPort=grpcPort,
-    clientID=clientID, clientSecret=clientSecret, tenantName=tenant)
+    helicon_client = HeliconPublishClient(authorization_server=authorizationServer, server_host=grpcHost,
+                                          server_port=grpcPort, client_id=clientId, client_secret=clientSecret,
+                                          tenant_name=tenant)
 
     payload = f'{{"temperature": 26, "timestamp": {time.time()}}}'
     helicon_client.write(stream_name, payload)
@@ -48,14 +50,15 @@ stream_name = "<stream_name>"
 
 
 def process(event: Dict[str, Any]):
-print(event)
-print(event["temperature"])
-print(event["timestamp"])
+    print(event)
+    print(event["temperature"])
+    print(event["timestamp"])
 
 
 if __name__ == '__main__':
-    helicon_client = HeliconSubscribeClient(authorization_erver=authorizationServer, server_host=grpcHost, server_port=grpcPort,
-    client_id=clientID, client_secret=clientSecret, tenant_name=tenant)
+    helicon_client = HeliconSubscribeClient(authorization_server=authorizationServer, server_host=grpcHost,
+                                            server_port=grpcPort, client_id=clientId, client_secret=clientSecret,
+                                            tenant_name=tenant)
 
     helicon_client.subscribe_json(stream_name, process)
 ```
