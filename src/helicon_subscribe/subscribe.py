@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 from helicon_subscribe.helicon_subscribe_client import HeliconSubscribeClient
 
-authorizationServer = "<keycloak-url>"
+authorizationServer = "<authorization_server>"
 grpcHost = "<grpc-host>"
 grpcPort = 0  # "<grpc-port-as-int>"
 clientId = "<client-id>"
