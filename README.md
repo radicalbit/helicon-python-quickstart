@@ -20,6 +20,7 @@ This code is available at `helicon_publish/publish.py`. This example will publis
 }
 ```
 The method `time.time()` is part of the __Python 3__ code base, so you don't need to install anything else to use it.
+Additionally, you have to set an environment variable: GRPC_DEFAULT_SSL_ROOTS_FILE_PATH, providing the path of a certificates file.
 ```python
 authorizationServer = "<authorization-server>"
 grpcHost = "<grpc-host>"
@@ -30,6 +31,8 @@ tenant = "<tenant-name>"
 stream_name = "<stream_name>"
 
 if __name__ == '__main__':
+    os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "path/to/roots.pem"
+    
     helicon_client = HeliconPublishClient(authorization_server=authorizationServer, server_host=grpcHost,
                                           server_port=grpcPort, client_id=clientId, client_secret=clientSecret,
                                           tenant_name=tenant)
@@ -38,12 +41,12 @@ if __name__ == '__main__':
     helicon_client.write(stream_name, payload)
 ```
 ### Subscribe
-Same for subscription, the code is available at `helicon_subscribe/subscribe.py`, and it is going to print the message, and its fields, defined above.
+Same for subscription (GRPC_DEFAULT_SSL_ROOTS_FILE_PATH setup included), the code is available at `helicon_subscribe/subscribe.py`, and it is going to print the message, and its fields, defined above.
 ```python
-authorizationServer = "<authorization-server>"
+authorizationServer = "<authorization_server>"
 grpcHost = "<grpc-host>"
 grpcPort = 0  # "<grpc-port-as-int>"
-clientID = "<client-id>"
+clientId = "<client-id>"
 clientSecret = "<client-secret>"
 tenant = "<tenant-name>"
 stream_name = "<stream_name>"
@@ -56,6 +59,8 @@ def process(event: Dict[str, Any]):
 
 
 if __name__ == '__main__':
+    os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "path/to/roots.pem"
+
     helicon_client = HeliconSubscribeClient(authorization_server=authorizationServer, server_host=grpcHost,
                                             server_port=grpcPort, client_id=clientId, client_secret=clientSecret,
                                             tenant_name=tenant)
