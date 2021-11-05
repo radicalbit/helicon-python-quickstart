@@ -5,11 +5,11 @@ from typing import Dict, Any
 from helicon_subscribe.helicon_subscribe_client import HeliconSubscribeClient
 
 authorization_server = "<authorization_server>"
-grpc_host = "<grpc-host>"
-grpc_port = 0  # "<grpc-port-as-int>"
-client_id = "<client-id>"
-client_secret = "<client-secret>"
-tenant = "<tenant-name>"
+grpc_host = "<grpc_host>"
+grpc_port = 0  # "<grpc_port_as_int>"
+client_id = "<client_id>"
+client_secret = "<client_secret>"
+tenant = "<tenant_name>"
 stream_name = "<stream_name>"
 
 

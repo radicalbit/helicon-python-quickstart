@@ -6,7 +6,7 @@ Helicon is a simple, scalable, robust, code-free and generic platform to enable 
 ## Set up the project
 
 We suggest to use venv and install everything with it: Run `python3 -m venv venv` and `source venv/bin/activate` to create and activate the virtual environment venv.
-Run `pip install -r requirements.txt` to install the project.
+Run `pip install --upgrade pip` to update pip to the latest version and tun `pip install -r requirements.txt` to install the project.
 To start to publish and/or subscribe to a topic stream you need to populate all the placeholder fields, defined like <placeholder>.
 Then you can just run the `__main__` method inside each client example.
 
