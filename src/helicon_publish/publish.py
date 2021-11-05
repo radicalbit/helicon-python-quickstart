@@ -3,7 +3,7 @@ import time
 
 from helicon_publish.helicon_publish_client import HeliconPublishClient
 
-authorization_server = "<authorization-server>"
+authorization_server = "<authorization_server>"
 grpc_host = "<grpc-host>"
 grpc_port = 0 # "<grpc-port-as-int>"
 client_id = "<client-id>"
