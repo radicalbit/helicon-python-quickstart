@@ -22,7 +22,7 @@ This code is available at `helicon_publish/publish.py`. This example will publis
 The method `time.time()` is part of the __Python 3__ code base, so you don't need to install anything else to use it.
 Additionally, you have to set an environment variable: GRPC_DEFAULT_SSL_ROOTS_FILE_PATH, providing the path of a certificates file.
 ```python
-authorization_server = "<authorization-server>"
+authorization_server = "<authorization_server>"
 grpc_host = "<grpc-host>"
 grpc_port = 0  # "<grpc-port-as-int>"
 client_id = "<client-id>"
