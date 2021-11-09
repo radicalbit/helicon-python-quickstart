@@ -1,17 +1,20 @@
-#Helicon Python Sample App
+# Helicon Python Sample App
 This repository contains the files required to run the Helicon Python Quickstart.
 
 Helicon is a simple, scalable, robust, code-free and generic platform to enable and productise the next generation of "online modified", real-time event stream ML/AI models.
 
 ## Set up the project
 
-We suggest to use venv and install everything with it: Run `python3 -m venv venv` and `source venv/bin/activate` to create and activate the virtual environment venv.
+We suggest to use *venv* and install everything with it: Run `python3 -m venv venv` in your project home directory and `source venv/bin/activate` to create and activate the virtual environment venv.
 Run `pip install --upgrade pip` to update pip to the latest version and tun `pip install -r requirements.txt` to install the project.
+Make sure you are using +pip3* as package manager.
 To start to publish and/or subscribe to a topic stream you need to populate all the placeholder fields, defined like <placeholder>.
 Then you can just run the `__main__` method inside each client example.
 
 ## Sample App
+
 ### Publish
+
 This code is available at `helicon_publish/publish.py`. This example will publish as payload a json object like
 ```json
 {
