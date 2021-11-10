@@ -1,5 +1,4 @@
 import atexit
-import os
 from typing import Dict, Any
 
 from helicon_subscribe.helicon_subscribe_client import HeliconSubscribeClient
@@ -20,8 +19,6 @@ def process(event: Dict[str, Any]):
 
 
 if __name__ == '__main__':
-    os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "path/to/roots.pem"
-
     helicon_client = HeliconSubscribeClient(authorization_server=authorization_server, server_host=grpc_host,
                                             server_port=grpc_port, client_id=client_id, client_secret=client_secret,
                                             tenant_name=tenant)
