@@ -1,15 +1,14 @@
 import atexit
 from typing import Dict, Any
 
-from helicon_subscribe.helicon_subscribe_client import HeliconSubscribeClient
+from helicon_client import HeliconSubscribeClient
 
-authorization_server = "<authorization-server>"
-grpc_host = "<grpc-host>"
-grpc_port = 0  # "<grpc-port-as-int>"
-client_id = "<client-id>"
-client_secret = "<client-secret>"
-tenant = "<tenant-name>"
-stream_name = "<stream-name>"
+host = "<host>"
+port = 443
+client_id = "<client_id>"
+client_secret = "<client_secret>"
+tenant = "<tenant_name>"
+stream_name = "<stream_name>"
 
 
 def process(event: Dict[str, Any]):
@@ -19,8 +18,7 @@ def process(event: Dict[str, Any]):
 
 
 if __name__ == '__main__':
-    helicon_client = HeliconSubscribeClient(authorization_server=authorization_server, server_host=grpc_host,
-                                            server_port=grpc_port, client_id=client_id, client_secret=client_secret,
+    helicon_client = HeliconSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
                                             tenant_name=tenant)
 
     helicon_client.subscribe_json(stream_name, process)

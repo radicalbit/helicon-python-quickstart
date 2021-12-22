@@ -24,32 +24,40 @@ This code is available at `helicon_publish/publish.py`. This example will publis
 ```
 The method `time.time()` is part of the __Python 3__ code base, so you don't need to install anything else to use it.
 ```python
-authorization_server = "<authorization-server>"
-grpc_host = "<grpc-host>"
-grpc_port = 0  # "<grpc-port-as-int>"
-client_id = "<client-id>"
-client_secret = "<client-secret>"
-tenant = "<tenant-name>"
-stream_name = "<stream-name>"
+import time
+
+from helicon_client import HeliconPublishClient
+
+host = "<host>"
+port = 443
+client_id = "<client_id>"
+client_secret = "<client_secret>"
+tenant = "<tenant_name>"
+stream_name = "<stream_name>"
 
 if __name__ == '__main__':
-    helicon_client = HeliconPublishClient(authorization_server=authorization_server, server_host=grpc_host,
-                                          server_port=grpc_port, client_id=client_id, client_secret=client_secret,
-                                          tenant_name=tenant)
+    helicon_client = HeliconPublishClient(
+        host=host, port=port, client_id=client_id, client_secret=client_secret, tenant_name=tenant)
 
     payload = f'{{"temperature": 26, "timestamp": {time.time()}}}'
     helicon_client.write(stream_name, payload)
+
+    helicon_client.close()
 ```
 ### Subscribe
 Same for subscription, the code is available at `helicon_subscribe/subscribe.py`, and it is going to print the message, and its fields, defined above.
 ```python
-authorization_server = "<authorization-server>"
-grpc_host = "<grpc-host>"
-grpc_port = 0  # "<grpc-port-as-int>"
-client_id = "<client-id>"
-client_secret = "<client-secret>"
-tenant = "<tenant-name>"
-stream_name = "<stream-name>"
+import atexit
+from typing import Dict, Any
+
+from helicon_client import HeliconSubscribeClient
+
+host = "<host>"
+port = 443
+client_id = "<client_id>"
+client_secret = "<client_secret>"
+tenant = "<tenant_name>"
+stream_name = "<stream_name>"
 
 
 def process(event: Dict[str, Any]):
@@ -59,11 +67,12 @@ def process(event: Dict[str, Any]):
 
 
 if __name__ == '__main__':
-    helicon_client = HeliconSubscribeClient(authorization_server=authorization_server, server_host=grpc_host,
-                                            server_port=grpc_port, client_id=client_id, client_secret=client_secret,
+    helicon_client = HeliconSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
                                             tenant_name=tenant)
 
     helicon_client.subscribe_json(stream_name, process)
+
+    atexit.register(helicon_client.close)
 ```
 To be able to read the data you are writing with the publishing client you need to subscribe to the same stream.
 The message received will be parsed as a generic json object before being processed from the response processor.
@@ -77,5 +86,14 @@ To publish 1 message you can run the `__main__` method inside `publish.py` manua
 
 You should see printed the response on the terminal.
 
+## Change the API version
+
+The main branch is always updated with the latest version of Helicon API.
+
+If you need to use an old version of the Helicon's API, you can switch between the project version using `git checkout tag_version`.
+
+You can refer to Helicon documentation for looking more in the depth over the version's features.
+
 ## Support
+
 We're always happy to help with any other questions you might have! [Send us an email](mailto:support@radicalbit.io).
