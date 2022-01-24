@@ -86,6 +86,62 @@ To publish 1 message you can run the `__main__` method inside `publish.py` manua
 
 You should see printed the response on the terminal.
 
+## How to Run publisher and subscriber concurrently
+
+It is possible to run concurrently publish and subscribe operations:
+```python
+import atexit
+import time
+import threading
+from typing import Dict, Any
+
+from helicon_client import HeliconPublishClient
+from helicon_client import HeliconSubscribeClient
+
+host = "<host>"
+port = 443
+client_id = "<client_id>"
+client_secret = "<client_secret>"
+tenant = "<tenant_name>"
+stream_name = "<stream_name>"
+
+
+def process(event: Dict[str, Any]):
+    print(event)
+    print(event["temperature"])
+    print(event["timestamp"])
+
+
+def write_to_stream(helicon_client: HeliconPublishClient):
+    for i in range(500):
+        payload = f'{{"temperature": {i}, "timestamp": {time.time()}}}'
+        helicon_client.write(stream_name, payload)
+
+if __name__ == '__main__':
+    helicon_subscribe_client = HeliconSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
+                                            tenant_name=tenant)
+    helicon_publish_client = HeliconPublishClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
+                                          tenant_name=tenant)
+
+    sub_thread = threading.Thread(target=helicon_subscribe_client.subscribe_json, args=(stream_name, process), daemon=True)
+    pub_thread = threading.Thread(target=write_to_stream, args=(helicon_publish_client,), daemon=True)
+    
+    sub_thread.start()
+    pub_thread.start()
+    
+    pub_thread.join()
+    sub_thread.join()
+    
+    atexit.register(helicon_subscribe_client.close)
+```
+
+It is also possible to use another publish to publish messages red from the subscriber, changing the `process` method as follows:
+```python
+def process(event: Dict[str, Any]):
+    # response won't arrive in json format, it should be parsed, i.e. json.dumps({k: list(response[k].values())[0] for k in response})
+    helicon_client_publish.write(stream_name_2, response)
+```
+
 ## Change the API version
 
 The main branch is always updated with the latest version of Helicon API.
