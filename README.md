@@ -137,7 +137,7 @@ if __name__ == '__main__':
 
 It is also possible to use another publish to publish messages red from the subscriber, changing the `process` method as follows:
 ```python
-def process(event: Dict[str, Any]):
+def process(response: Dict[str, Any]):
     # response won't arrive in json format, it should be parsed, i.e. json.dumps({k: list(response[k].values())[0] for k in response})
     helicon_client_publish.write(stream_name_2, response)
 ```
