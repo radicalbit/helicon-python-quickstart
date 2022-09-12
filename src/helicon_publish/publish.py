@@ -7,6 +7,7 @@ port = 443
 client_id = "<client_id>"
 client_secret = "<client_secret>"
 tenant = "<tenant_name>"
+
 stream_name = "<stream_name>"
 
 if __name__ == '__main__':
