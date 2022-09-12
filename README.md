@@ -44,6 +44,7 @@ if __name__ == '__main__':
 
     helicon_client.close()
 ```
+
 ### Subscribe
 Same for subscription, the code is available at `helicon_subscribe/subscribe.py`, and it is going to print the message, and its fields, defined above.
 ```python
@@ -77,6 +78,8 @@ if __name__ == '__main__':
 To be able to read the data you are writing with the publishing client you need to subscribe to the same stream.
 The message received will be parsed as a generic json object before being processed from the response processor.
 To handle generic messages you can use `subscribe_string(stream_name, process)`, which will parse the message response as UTF-8 string.
+
+*For long-time subscribing operation, we suggest using our Bidirectional HeliconSubscribeClient, which you can find here: https://github.com/radicalbit/helicon-python-quickstart/blob/main/src/helicon_subscribe/subscribe_bi.py.*
 
 ## How to Run the app
 
