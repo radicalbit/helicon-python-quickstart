@@ -1,3 +1,3 @@
 from setuptools import setup
 
-setup(name='Helicon_Python_Quickstart', version='3.2.0')
+setup(name='Helicon_Python_Quickstart', version='3.2.1')
