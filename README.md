@@ -1,7 +1,7 @@
-# Helicon Python Sample App
-This repository contains the files required to run the Helicon Python Quickstart.
+# Radicalbit Platform Python Sample App
+This repository contains the files required to run the Radicalbit Platform Python Quickstart.
 
-Helicon is a simple, scalable, robust, code-free and generic platform to enable and productise the next generation of "online modified", real-time event stream ML/AI models.
+The Radicalbit Platform is a simple, scalable, robust, code-free and generic platform to enable and productise the next generation of "online modified", real-time event stream ML/AI models.
 
 ## Set up the project
 
@@ -15,7 +15,7 @@ Then you can just run the `__main__` method inside each client example.
 
 ### Publish
 
-This code is available at `helicon_publish/publish.py`. This example will publish as payload a json object like
+This code is available at `platform_publish/publish.py`. This example will publish as payload a json object like
 ```json
 {
 "temperature": 26,
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 ```
 
 ### Subscribe
-Same for subscription, the code is available at `helicon_subscribe/subscribe.py`, and it is going to print the message, and its fields, defined above.
+Same for subscription, the code is available at `platform_subscribe/subscribe.py`, and it is going to print the message, and its fields, defined above.
 ```python
 import atexit
 from typing import Dict, Any
@@ -79,7 +79,7 @@ To be able to read the data you are writing with the publishing client you need 
 The message received will be parsed as a generic json object before being processed from the response processor.
 To handle generic messages you can use `subscribe_string(stream_name, process)`, which will parse the message response as UTF-8 string.
 
-*For long-time subscribing operation, we suggest using our Bidirectional HeliconSubscribeClient, which you can find here: https://github.com/radicalbit/helicon-python-quickstart/blob/main/src/helicon_subscribe/subscribe_bi.py.*
+*For long-time subscribing operation, we suggest using our Bidirectional HeliconSubscribeClient, which you can find here: https://github.com/radicalbit/helicon-python-quickstart/blob/main/src/platform_subscribe/subscribe_bi.py.*
 
 ## How to Run the app
 
@@ -121,13 +121,13 @@ def write_to_stream(helicon_client: HeliconPublishClient):
         helicon_client.write(stream_name, payload)
 
 if __name__ == '__main__':
-    helicon_subscribe_client = HeliconSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
+    platform_subscribe_client = HeliconSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
                                             tenant_name=tenant)
-    helicon_publish_client = HeliconPublishClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
+    platform_publish_client = HeliconPublishClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
                                           tenant_name=tenant)
 
-    sub_thread = threading.Thread(target=helicon_subscribe_client.subscribe_json, args=(stream_name, process), daemon=True)
-    pub_thread = threading.Thread(target=write_to_stream, args=(helicon_publish_client,), daemon=True)
+    sub_thread = threading.Thread(target=platform_subscribe_client.subscribe_json, args=(stream_name, process), daemon=True)
+    pub_thread = threading.Thread(target=write_to_stream, args=(platform_publish_client,), daemon=True)
     
     sub_thread.start()
     pub_thread.start()
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     pub_thread.join()
     sub_thread.join()
     
-    atexit.register(helicon_subscribe_client.close)
+    atexit.register(platform_subscribe_client.close)
 ```
 
 It is also possible to use another publish to publish messages red from the subscriber, changing the `process` method as follows:
@@ -147,11 +147,11 @@ def process(response: Dict[str, Any]):
 
 ## Change the API version
 
-The main branch is always updated with the latest version of Helicon API.
+The main branch is always updated with the latest version of the Radicalbit Platform API.
 
 If you need to use an old version of the Helicon's API, you can switch between the project version using `git checkout tag_version`.
 
-You can refer to Helicon documentation for looking more in the depth over the version's features.
+You can refer to the Radicalbit Platform documentation for looking more in the depth over the version's features.
 
 ## Support
 

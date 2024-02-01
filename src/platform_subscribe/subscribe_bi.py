@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 from helicon_client import HeliconSubscribeClientBi
 
-host = "helicon.dev.radicalbit.io"
+host = "platform.dev.radicalbit.io"
 port = 443
 client_id = "<client_id>"
 client_secret = "<client_secret>"
