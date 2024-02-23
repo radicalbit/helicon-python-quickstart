@@ -26,7 +26,7 @@ The method `time.time()` is part of the __Python 3__ code base, so you don't nee
 ```python
 import time
 
-from helicon_client import HeliconPublishClient
+from radicalbit_client import RadicalbitPublishClient
 
 host = "<host>"
 port = 443
@@ -36,13 +36,13 @@ tenant = "<tenant_name>"
 stream_name = "<stream_name>"
 
 if __name__ == '__main__':
-    helicon_client = HeliconPublishClient(
+    radicalbit_client = RadicalbitPublishClient(
         host=host, port=port, client_id=client_id, client_secret=client_secret, tenant_name=tenant)
 
     payload = f'{{"temperature": 26, "timestamp": {time.time()}}}'
-    helicon_client.write(stream_name, payload)
+    radicalbit_client.write(stream_name, payload)
 
-    helicon_client.close()
+    radicalbit_client.close()
 ```
 
 ### Subscribe
@@ -51,7 +51,7 @@ Same for subscription, the code is available at `platform_subscribe/subscribe.py
 import atexit
 from typing import Dict, Any
 
-from helicon_client import HeliconSubscribeClient
+from radicalbit_client import RadicalbitSubscribeClient
 
 host = "<host>"
 port = 443
@@ -68,18 +68,18 @@ def process(event: Dict[str, Any]):
 
 
 if __name__ == '__main__':
-    helicon_client = HeliconSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
+    radicalbit_client = RadicalbitSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
                                             tenant_name=tenant)
 
-    helicon_client.subscribe_json(stream_name, process)
+    radicalbit_client.subscribe_json(stream_name, process)
 
-    atexit.register(helicon_client.close)
+    atexit.register(radicalbit_client.close)
 ```
 To be able to read the data you are writing with the publishing client you need to subscribe to the same stream.
 The message received will be parsed as a generic json object before being processed from the response processor.
 To handle generic messages you can use `subscribe_string(stream_name, process)`, which will parse the message response as UTF-8 string.
 
-*For long-time subscribing operation, we suggest using our Bidirectional HeliconSubscribeClient, which you can find here: https://github.com/radicalbit/helicon-python-quickstart/blob/main/src/platform_subscribe/subscribe_bi.py.*
+*For long-time subscribing operation, we suggest using our Bidirectional RadicalbitSubscribeClient, which you can find here: https://github.com/radicalbit/helicon-python-quickstart/blob/main/src/platform_subscribe/subscribe_bi.py.*
 
 ## How to Run the app
 
@@ -98,8 +98,8 @@ import time
 import threading
 from typing import Dict, Any
 
-from helicon_client import HeliconPublishClient
-from helicon_client import HeliconSubscribeClient
+from radicalbit_client import RadicalbitPublishClient
+from radicalbit_client import RadicalbitSubscribeClient
 
 host = "<host>"
 port = 443
@@ -115,15 +115,15 @@ def process(event: Dict[str, Any]):
     print(event["timestamp"])
 
 
-def write_to_stream(helicon_client: HeliconPublishClient):
+def write_to_stream(radicalbit_client: RadicalbitPublishClient):
     for i in range(500):
         payload = f'{{"temperature": {i}, "timestamp": {time.time()}}}'
-        helicon_client.write(stream_name, payload)
+        radicalbit_client.write(stream_name, payload)
 
 if __name__ == '__main__':
-    platform_subscribe_client = HeliconSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
+    platform_subscribe_client = RadicalbitSubscribeClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
                                             tenant_name=tenant)
-    platform_publish_client = HeliconPublishClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
+    platform_publish_client = RadicalbitPublishClient(host=host, port=port, client_id=client_id, client_secret=client_secret,
                                           tenant_name=tenant)
 
     sub_thread = threading.Thread(target=platform_subscribe_client.subscribe_json, args=(stream_name, process), daemon=True)
@@ -142,14 +142,14 @@ It is also possible to use another publish to publish messages red from the subs
 ```python
 def process(response: Dict[str, Any]):
     # response won't arrive in json format, it should be parsed, i.e. json.dumps({k: list(response[k].values())[0] for k in response})
-    helicon_client_publish.write(stream_name_2, response)
+    radicalbit_client_publish.write(stream_name_2, response)
 ```
 
 ## Change the API version
 
 The main branch is always updated with the latest version of the Radicalbit Platform API.
 
-If you need to use an old version of the Helicon's API, you can switch between the project version using `git checkout tag_version`.
+If you need to use an old version of the Radicalbit's API, you can switch between the project version using `git checkout tag_version`.
 
 You can refer to the Radicalbit Platform documentation for looking more in the depth over the version's features.
 
